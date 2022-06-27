@@ -6,7 +6,7 @@ public:
         for (int i = 0; i <= n; i++) {
 			int start = max(i - ranges[i], 0);
 			int end = min(i + ranges[i], n);
-			for (int j = start; j <= end; j++) {
+			for (int j = start+1; j <= end; j++) {
 				dp[j] = min(dp[j], dp[start] + 1);
 			}
 		}
