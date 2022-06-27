@@ -91,18 +91,13 @@ int count(Node* head) {
 }
 int intersectPoint(Node* head1, Node* head2)
 {
-    int cnt1 = count(head1);
-    int cnt2 = count(head2);
-    int dif = abs(cnt1 - cnt2);
-    if(cnt1 > cnt2) {
-        while(dif--) head1 = head1->next;
-    }
-    else {
-        while(dif--) head2 = head2->next;
-    }
-    while(head1 != head2) {
+    Node* p1 = head1, *p2 = head2;
+    while(head1 != NULL && head2 != NULL && head1 != head2) {
         head1 = head1->next;
         head2 = head2->next;
+        // if(head1 == head2) return head1 ? head1->data : -1;
+        if(head1 == NULL) head1 = p2;
+        if(head2 == NULL) head2 = p1;
     }
     return head1 ? head1->data : -1;
 }
