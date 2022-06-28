@@ -12,8 +12,10 @@ public:
             }
         }
         // return dp[n-1];
-        // for(int i=0; i<n; i++) cout<<dp[i]<<" ";
+        for(int i=0; i<n; i++) cout<<dp[i]<<" ";
         for(int i=0; i<n; i++) {
+            // to delete from 0 to i we need to delete i char
+            // to delete from i+1 to n we need to delete n-i-1 character
             ans = min(ans, dp[i] + n - i - 1);
         }
         return ans;
