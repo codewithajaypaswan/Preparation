@@ -4,7 +4,7 @@ public:
     string toHex(int num) {
         if(num == 0) return "0";
         string ans;
-        unsigned int n = num;
+        unsigned int n = num; // this will take care of negative number
         while(n) {
             ans += HEX[n%16];
             n = n/16;
