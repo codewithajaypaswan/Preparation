@@ -2,16 +2,20 @@ class Solution {
 public:
     int minCut(string s) {
         int n = s.size();
-        vector<int>dp(n+1);
-        for(int i=0; i<=n; i++) dp[i] = i-1;
+        vector<int>dp(n);
+        for(int i=0; i<n; i++) dp[i] = i;
         for(int i=0; i<n; i++) {
-            for(int j=0; i-j >= 0 && j+i < n && s[i-j] == s[j+i]; j++) {
-                dp[i+j+1] = min(dp[i+j+1], dp[i-j] + 1);
+            // for odd length
+            for(int start = i, end = i; start >= 0 && end < n && s[start] == s[end]; start--, end++) {
+                int newCut = start == 0 ? 0 : dp[start-1] + 1;
+                dp[end] = min(dp[end], newCut);
             }
-            for(int j=1; i-j+1 >= 0 && j+i < n && s[i-j+1] == s[j+i]; j++) {
-                dp[i+j+1] = min(dp[i+j+1], dp[i-j+1] + 1);
+            // for even length
+            for(int start = i-1, end = i; start >= 0 && end < n && s[start] == s[end]; start--, end++) {
+                int newCut = start == 0 ? 0 : dp[start-1] + 1;
+                dp[end] = min(dp[end], newCut);
             }
         }
-        return dp[n];
+        return dp[n-1];
     }
 };
