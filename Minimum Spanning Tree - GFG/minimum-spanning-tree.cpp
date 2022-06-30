@@ -15,19 +15,19 @@ class Solution
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
         pq.push({0, 0});
         vector<int>vis(V, 0);
-        int E = V-1;
+        int ans = 0, E = V;
         while(!pq.empty()) {
             auto it = pq.top(); pq.pop();
-            int wt = it.first, v = it.second;
-            if(vis[v]) continue;
-            vis[v] = 1;
+            int u = it.second, wt = it.first;
+            if(vis[u]) continue;
+            vis[u] = 1;
             ans += wt;
-            if(E == 0) return ans;
             E--;
-            for(auto x:adj[v]) {
-                int nextWt = x[1],  nextV = x[0];
-                if(!vis[nextV]) {
-                    pq.push({nextWt,nextV});
+            if(E == 0) return ans;
+            for(auto x:adj[u]) {
+                int v = x[0], wt_v = x[1];
+                if(vis[v] == 0) {
+                    pq.push({wt_v, v});
                 }
             }
         }
