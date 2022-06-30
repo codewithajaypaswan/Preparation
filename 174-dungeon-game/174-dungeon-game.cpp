@@ -1,17 +1,15 @@
 class Solution {
 public:
-    int solve(vector<vector<int>>&mat, vector<vector<int>>&dp, int x, int y) {
-        if(x == mat.size()-1 && y == mat[0].size() - 1) return mat[x][y] <= 0 ? abs(mat[x][y])+1 : 1;
-        if(x == mat.size() || y == mat[0].size()) return 1e9;
-        if(dp[x][y] != 1e9) return dp[x][y];
-        int xMove = solve(mat, dp, x+1, y) - mat[x][y];
-        int yMove = solve(mat, dp, x, y+1) - mat[x][y];
-        int move = min(xMove, yMove);
-        return dp[x][y] = move <= 0 ? 1 : move; 
-    }
     int calculateMinimumHP(vector<vector<int>>& mat) {
         int n = mat.size(), m = mat[0].size();
-        vector<vector<int>>dp(n, vector<int>(m, 1e9));
-        return solve(mat, dp, 0, 0);
+        vector<vector<int>>dp(n+1, vector<int>(m+1, 1e9));
+        dp[n][m-1] = dp[n-1][m] = 1;
+        for(int i=n-1; i>=0; i--) {
+            for(int j=m-1; j>=0; j--) {
+                int move = min(dp[i+1][j], dp[i][j+1]) - mat[i][j];
+                dp[i][j] = move <= 0 ? 1 : move;
+            }
+        }
+        return dp[0][0];
     }
 };
