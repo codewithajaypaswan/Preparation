@@ -20,14 +20,22 @@ class Solution
             }
         }
         int E = V-1;
-        vector<int>parent(V, -1);
+        vector<int>parent(V, -1), rank(V, 1);
         while(!pq.empty()) {
             auto it = pq.top(); pq.pop();
             int wt = it.first, u = it.second.first, v = it.second.second;
             int parentU = find(u, parent);
             int parentV = find(v, parent);
             if(parentU == parentV) continue;
-            parent[parentU] = parentV;
+            
+            if(rank[parentU] > rank[parentV]) {
+                parent[parentV] = parentU;
+                rank[parentU] += rank[parentV];
+            }
+            else {
+                parent[parentU] = parentV;
+                rank[parentV] += rank[parentU];
+            }
             ans += wt;
             E--;
             if(E == 0) return ans;
