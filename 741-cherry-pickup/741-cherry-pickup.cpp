@@ -1,32 +1,26 @@
 class Solution {
 public:
-        int cherry_picker(vector<vector<int>>& grid,vector<vector<vector<int>>>&dp,int r1,int c1,int c2,int n)
-    {
-        int r2 = r1 + c1 - c2;
-        if(r1>=n || r2>=n || c1>=n || c2>=n|| grid[r1][c1]==-1 || grid[r2][c2]==-1)
-            return -1e9;
-        if(dp[r1][c1][c2]!=-1)//if we have already calculated the value for current state then return that value
-            return dp[r1][c1][c2];
-        //if we are right most bottom corner then simply return grid value
-        if(r1==n-1 && c1 == n-1)
-            return grid[r1][c1];
-        //ans will be the ans for current state + future state
-        int ans = grid[r1][c1];
-        if(r1!=r2)//this is put in place to not pickup a cherry that is already picked up
-            ans += grid[r2][c2];
-        //1.) Right Right
-        //2.) Down Down
-        //3.) Right Down
-        //4.) Down Right
-        int temp = max({cherry_picker(grid,dp,r1,c1+1,c2+1,n),cherry_picker(grid,dp,r1+1,c1,c2,n),
-                       cherry_picker(grid,dp,r1,c1+1,c2,n),cherry_picker(grid,dp,r1+1,c1,c2+1,n)});
-        ans += temp;//add it to the ans
-        dp[r1][c1][c2] = ans;//memorise the answer
-        return ans;
+    int dp[51][51][51];
+    int solve(vector<vector<int>>&g, int n, int r1, int c1, int c2) {
+        int r2 = r1+c1-c2;
+        if(r1 >= n || r2 >= n || c1 >= n || c2 >= n || g[r1][c1] == -1 || g[r2][c2] == -1) return -1e9;
+        if(dp[r1][c1][c2] != -1) return dp[r1][c1][c2];
+        if(r1 == n-1 && c1 == n-1) return g[r1][c1];
+        int cherry = g[r1][c1];
+        if(r1 != r2) {
+            cherry += g[r2][c2];
+        }
+        int rr = solve(g, n, r1, c1+1, c2+1);
+        int dd = solve(g, n, r1+1, c1, c2);
+        int rd = solve(g, n, r1, c1+1, c2);
+        int dr = solve(g, n, r1+1, c1, c2+1);
+        int temp = max({rr, rd, dd, dr});
+        cherry += temp;
+        return dp[r1][c1][c2] = cherry;
     }
     int cherryPickup(vector<vector<int>>& grid) {
         int n = grid.size();
-        vector<vector<vector<int>>>dp(n,vector<vector<int>>(n,vector<int>(n,-1)));
-        return max(0,cherry_picker(grid,dp,0,0,0,n));
+        memset(dp, -1, sizeof(dp));
+        return max(0, solve(grid, n, 0, 0, 0));
     }
 };
