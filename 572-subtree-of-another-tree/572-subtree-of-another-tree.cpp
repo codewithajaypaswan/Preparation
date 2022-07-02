@@ -9,18 +9,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-public:
-    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if(!root) return false;
-        else if(dfs(root, subRoot)) return true;
-        else return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+class Solution
+{
+    public:    
+    bool isSubtree(TreeNode* root, TreeNode* subRoot)
+    {
+        string tree1, tree2;        
+        buildPreorder(root, tree1);
+        buildPreorder(subRoot, tree2);
+        
+        if (tree1.find(tree2) == string::npos)
+            return false;        
+        return true;
     }
-    bool dfs(TreeNode* root, TreeNode* subRoot) {
-        if(!root || !subRoot) return !root && !subRoot;
-        else if(root->val == subRoot->val) {
-            return dfs(root->left, subRoot->left) && dfs(root->right, subRoot->right);
+    
+    void buildPreorder(TreeNode* root, string& s)
+    {
+        if (root == nullptr)
+            s += ",#";
+        else
+        {
+            s += "," + to_string(root->val);
+            buildPreorder(root->left, s);        
+            buildPreorder(root->right, s);
         }
-        else return false;
     }
 };
