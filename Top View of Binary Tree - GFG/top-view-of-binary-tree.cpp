@@ -104,23 +104,21 @@ class Solution
     public:
     //Function to return a list of nodes visible from the top view 
     //from left to right in Binary Tree.
+    void dfs(Node* root, int width, int level, map<int, pair<int,int>>&mp) {
+        if(!root) return;
+        if(!mp.count(width) || level <= mp[width].first) {
+            mp[width] = {level, root->data};
+        }
+        dfs(root->left, width-1, level+1, mp);
+        dfs(root->right, width+1, level+1, mp);
+    }
     vector<int> topView(Node *root)
     {
+        map<int, pair<int,int>>mp;
+        dfs(root, 0, 0, mp);
         vector<int>ans;
-        if(!root) return ans;
-        queue<pair<Node*, int>>q;
-        map<int, int>mp;
-        q.push({root, 0});
-        while(!q.empty()) {
-            auto it = q.front(); q.pop();
-            Node* cur = it.first;
-            int width = it.second;
-            if(mp.find(width) == mp.end()) mp[width] = cur->data;
-            if(cur->left) q.push({cur->left, width-1});
-            if(cur->right) q.push({cur->right, width+1});
-        }
         for(auto it:mp) {
-            ans.push_back(it.second);
+            ans.push_back(it.second.second);
         }
         return ans;
     }
