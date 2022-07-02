@@ -95,25 +95,22 @@ Node* buildTree(string str)
 
 class Solution {
   public:
-    vector <int> bottomView(Node *root) {
-        queue<pair<Node*, int>>q;
-        q.push({root, 0});
-        map<int,int>mp;
-        while(!q.empty()) {
-            auto it = q.front(); q.pop();
-            int width = it.second;
-            Node* cur = it.first;
-            mp[width] = cur->data;
-            if(cur->left) {
-                q.push({cur->left, width-1});
-            }
-            if(cur->right) {
-                q.push({cur->right, width+1});
-            }
+    void dfs(Node* root, int level, int width, map<int, pair<int,int>>&mp) {
+        if(!root) return;
+        
+        if(!mp.count(width) || level >= mp[width].first) {
+            mp[width] = {level, root->data};
         }
+        
+        dfs(root->left, level+1, width-1, mp);
+        dfs(root->right, level+1, width+1, mp);
+    }
+    vector <int> bottomView(Node *root) {
+        map<int, pair<int,int>>mp;
+        dfs(root, 0, 0, mp);
         vector<int>ans;
         for(auto it:mp) {
-            ans.push_back(it.second);
+            ans.push_back(it.second.second);
         }
         return ans;
     }
