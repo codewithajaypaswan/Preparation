@@ -98,9 +98,10 @@ int MinHeap::extractMin()
         return harr[heap_size];
     }
     heap_size--;
+    int val = harr[0];
     swap(harr[0], harr[heap_size]);
     MinHeapify(0);
-    return harr[heap_size];
+    return val;
 }
 
 //Function to delete a key at ith index.
