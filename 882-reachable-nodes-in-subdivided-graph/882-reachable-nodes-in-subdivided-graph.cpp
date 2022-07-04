@@ -1,30 +1,29 @@
 class Solution {
 public:
-    int reachableNodes(vector<vector<int>>& edges, int maxMoves, int n) {
-        vector<bool>vis(n, false);
-        vector<vector<int>>g(n, vector<int>(n, -1));
-        for(auto e:edges) {
-            g[e[0]][e[1]] = g[e[1]][e[0]] = e[2];
-        }
-        priority_queue<pair<int,int>>pq;
-        pq.push({maxMoves, 0});
-        int ans = 0;
-        while(!pq.empty()) {
-            auto[move, cur] = pq.top(); pq.pop();
-            if(vis[cur]) continue;
-            vis[cur] = true;
-            ans++;
-            for(int i=0; i<n; i++) {
-                if(g[cur][i] == -1) continue;
-                if(!vis[i]  && move >= g[cur][i] + 1) {
-                    pq.push({move - g[cur][i] - 1, i});
+    int reachableNodes(vector<vector<int>> edges, int M, int N) {
+        unordered_map<int, unordered_map<int, int>> e;
+        for (auto v : edges) e[v[0]][v[1]] = e[v[1]][v[0]] = v[2];
+        priority_queue<pair<int, int>> pq;
+        pq.push({M, 0});
+        unordered_map<int, int> seen;
+        while (pq.size()) {
+            int moves = pq.top().first, i = pq.top().second;
+            pq.pop();
+            if (!seen.count(i)) {
+                seen[i] = moves;
+                for (auto j : e[i]) {
+                    int moves2 = moves - j.second - 1;
+                    if (!seen.count(j.first) && moves2 >= 0)
+                        pq.push({ moves2, j.first});
                 }
-                int moveCount = min(move, g[cur][i]);
-                ans += moveCount;
-                g[cur][i] -= moveCount;
-                g[i][cur] -= moveCount;
             }
         }
-        return ans;
+        int res = seen.size();
+        for (auto v : edges) {
+            int a = seen.find(v[0]) == seen.end() ? 0 : seen[v[0]];
+            int b = seen.find(v[1]) == seen.end() ? 0 : seen[v[1]];
+            res += min(a + b, v[2]);
+        }
+        return res;
     }
 };
