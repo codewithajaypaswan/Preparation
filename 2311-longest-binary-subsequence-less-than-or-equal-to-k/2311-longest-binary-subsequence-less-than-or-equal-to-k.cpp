@@ -4,7 +4,7 @@ public:
         long sum = 0, j = 0, n = s.size(), ans = 0, check = 0;
         for(int i=n-1; i>=0; i--) {
             if(s[i] == '0') ans++;
-            else if(check == 0 && j < 31) {
+            else if(j < 31) {
                 sum += (1<<j);
                 if(k - sum >= 0) ans++;
             }
