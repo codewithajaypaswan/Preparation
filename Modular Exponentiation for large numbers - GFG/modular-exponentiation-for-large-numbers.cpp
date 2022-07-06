@@ -7,17 +7,14 @@ class Solution
 {
 	public:
 	    #define ll long long int
+	    ll solve(ll x, ll n, ll M) {
+	        if(n == 1) return x;
+	        if(n&1) return (x * solve(x, n-1, M))%M;
+	        else return solve((x*x)%M, n/2, M)%M;
+	    }
 		long long int PowMod(long long int x,long long int n,long long int M)
 		{
-		    ll ans = 1;
-		    while(n > 0) {
-		        if(n&1) {
-		            ans = (ans * x)%M;
-		        }
-		        n = n>>1;
-		        x = (x * x)%M;
-		    }
-		    return ans;
+		    return solve(x, n, M);
 		}
 };
 
