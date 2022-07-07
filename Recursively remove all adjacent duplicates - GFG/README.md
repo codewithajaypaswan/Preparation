@@ -1,5 +1,5 @@
 # Recursively remove all adjacent duplicates
-## Medium 
+##  Medium 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given a string s, remove all its adjacent duplicate characters recursively.&nbsp;</span></p>
 
