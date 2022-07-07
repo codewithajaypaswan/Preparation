@@ -1,26 +1,24 @@
 class Solution {
 public:
-    vector<int>solve(string s) {
-        int n = s.size();
-        vector<int>lps(n);
-        int i = 1, j = 0;
-        while(i < n) {
-            if(s[i] == s[j]) {
-                lps[i++] = ++j;
+    int strStr(string haystack, string needle) {
+        if (needle.length() == 0)
+            return 0;
+        if (haystack.length() == 0)
+            return -1;
+        
+        
+        for (int i = 0; i < haystack.length(); i++) {
+            // no enough places for needle after i
+            if (i + needle.length() > haystack.length()) break;
+            
+            for (int j = 0; j < needle.length(); j++) {
+                if (haystack[i+j] != needle[j])
+                    break;
+                if (j == needle.length()-1)
+                    return i;
             }
-            else if(j == 0) i++;
-            else j = lps[j-1];
         }
-        return lps;
-    }
-    int strStr(string s, string x) {
-        string str = x + "*" + s;
-         vector<int>lps = solve(str);
-         for(int i=0; i<str.size(); i++) {
-             if(lps[i] == x.size()) {
-                 return i - 2 * x.size();
-             }
-         }
-         return -1;
+        
+        return -1;
     }
 };
