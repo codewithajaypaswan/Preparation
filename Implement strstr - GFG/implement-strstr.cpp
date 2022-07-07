@@ -38,15 +38,12 @@ vector<int>solve(string s) {
 }
 int strstr(string s, string x)
 {
-     vector<int>lps = solve(x);
-     int i = 0, j = 0;
-     while(i < s.size() && j < x.size()) {
-         if(s[i] == x[j]) {
-             i++; j++;
-             if(j == x.size()) return i - j;
+     string str = x + "*" + s;
+     vector<int>lps = solve(str);
+     for(int i=0; i<str.size(); i++) {
+         if(lps[i] == x.size()) {
+             return i - 2 * x.size();
          }
-         else if(j == 0) i++;
-         else j = lps[j-1];
      }
      return -1;
 }
