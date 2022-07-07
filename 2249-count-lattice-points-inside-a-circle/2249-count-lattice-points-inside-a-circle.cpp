@@ -1,17 +1,19 @@
 class Solution {
 public:
-    int countLatticePoints(vector<vector<int>>& circles) {
-        set<pair<int,int>>st;
-        for(auto c:circles) {
-            int x = c[0], y = c[1], r = c[2];
-            for(int i=-r; i<=r; i++) {
-                for(int j=-r; j<=r; j++) {
-                    if(i*i + j*j <= r*r) {
-                        st.insert({x + i, y + j});
+    int countLatticePoints(vector<vector<int>>& v) { // v is vector of circles.
+        int n = v.size();
+        int ans = 0;
+        for(int x=0;x<=200;x++){
+            for(int y=0;y<=200;y++){
+                for(int i=0;i<n;i++){
+                    int a=v[i][0],b=v[i][1],r=v[i][2];
+                    if((a-x)*(a-x) + (b-y)*(b-y) <= r*r){
+                        ans++;
+                        break;
                     }
                 }
             }
         }
-        return st.size();
+        return ans;
     }
 };
