@@ -21,9 +21,11 @@ public:
         }
         dfs(root->left, str);
         dfs(root->right, str);
+        str.pop_back();
     }
     string smallestFromLeaf(TreeNode* root) {
-        dfs(root, "");
+        string str = "";
+        dfs(root, str);
         return ans;
     }
 };
