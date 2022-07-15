@@ -23,11 +23,11 @@ public:
             auto[d, u] = minHeap.top(); minHeap.pop();
             if (d > dist[u]) continue; // Skip if `d` is not updated to latest version!
             for(auto [v, time] : graph[u]) {
-                if (dist[v] > d + time) {
-                    dist[v] = d + time;
+                if (dist[v] > dist[u] + time) {
+                    dist[v] = dist[u] + time;
                     ways[v] = ways[u];
                     minHeap.push({dist[v], v});
-                } else if (dist[v] == d + time) {
+                } else if (dist[v] == dist[u] + time) {
                     ways[v] = (ways[v] + ways[u]) % MOD;
                 }
             }
