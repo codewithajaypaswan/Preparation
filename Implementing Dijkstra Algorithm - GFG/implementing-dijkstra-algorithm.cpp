@@ -21,7 +21,7 @@ class Solution
             for(auto x:adj[u]) {
                 int v = x[0], wt = x[1];
                 if(vis[v] == 0 && dist[v] > dist[u] + wt) {
-                    dist[v] = dist[u] + wt;
+                    dist[v] = it.first + wt;
                     pq.push({dist[v], v});
                 }
             }
