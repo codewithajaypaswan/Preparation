@@ -1,23 +1,28 @@
 class Solution {
 public:
+    int dp[32][2][2];
+    vector<int>v;
+    int solve(int pos, int small, int prev) {
+        if(pos >= v.size()) return 1;
+        if(dp[pos][small][prev] != -1) return dp[pos][small][prev];
+        
+        int maxDigit = small ? 1 : v[pos];
+        int ans = 0;
+        for(int i=0; i<=maxDigit; i++) {
+            int nSmall = small || i < maxDigit;
+            if(prev != 1 || i != 1) {
+                ans += solve(pos+1, nSmall, i);
+            }
+        }
+        return dp[pos][small][prev] = ans;
+    }
     int findIntegers(int n) {
-        vector<int>fib(32, 0);
-        fib[0] = 1;
-        fib[1] = 2;
-        for(int i=2; i<32; i++) {
-            fib[i] = fib[i-1] + fib[i-2];
-        }
-        int prevBit = 0, ans = 0;
-        for(int i=31; i>=0; i--) {
-            if(n&(1<<i)) {
-                ans += fib[i];
-                if(prevBit) return ans;
-                prevBit = 1;
-            }
-            else {
-                prevBit = 0;
-            }
-        }
-        return ans+1; // to include zero
+        memset(dp, -1, sizeof(dp));
+        while(n > 0) {
+            v.push_back(n%2);
+            n = n/2;
+        }        
+        reverse(v.begin(), v.end());
+        return solve(0, 0, 0);
     }
 };
