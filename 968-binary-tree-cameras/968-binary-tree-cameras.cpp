@@ -18,13 +18,13 @@ public:
     }
     int dfs(TreeNode* root) {
         if(!root) return 0;
-        int lChild = dfs(root->left);
-        int rChild = dfs(root->right);
-        if(lChild == -1 || rChild == -1) {
+        int lchild = dfs(root->left);
+        int rchild = dfs(root->right);
+        if(lchild == -1 || rchild == -1) {
             cam++;
             return 1;
         }
-        if(lChild == 1 || rChild == 1) return 0;
+        if(lchild == 1 || rchild == 1) return 0;
         return -1;
     }
 };
