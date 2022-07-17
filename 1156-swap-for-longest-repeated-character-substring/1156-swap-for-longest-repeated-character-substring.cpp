@@ -27,9 +27,8 @@ public:
         int ans = max(left[n-1], right[0]);
         for(int i=0; i<n; i++) {
             if(i-1 >= 0 && i+1 < n && text[i-1] == text[i+1] && text[i] != text[i-1]) {
-                // cout<<freq[text[i-1] - 'a']<<" "<<left[i-1]<< " "<<right[i+1]<<endl;
                 if(freq[text[i-1] - 'a'] == left[i-1] + right[i+1]) {
-                    ans = max(ans, left[i-1]+right[i+1]);
+                    ans = max(ans, left[i-1] + right[i+1]);
                 }
                 else {
                     ans = max(ans, left[i-1] + right[i+1] + 1);
