@@ -7,14 +7,14 @@ public:
         pq.push({M, 0});
         unordered_map<int, int> seen;
         while (pq.size()) {
-            int moves = pq.top().first, i = pq.top().second;
+            int moves = pq.top().first, cur = pq.top().second;
             pq.pop();
-            if (!seen.count(i)) {
-                seen[i] = moves;
-                for (auto j : e[i]) {
-                    int moves2 = moves - j.second - 1;
-                    if (!seen.count(j.first) && moves2 >= 0)
-                        pq.push({ moves2, j.first});
+            if(seen.count(cur)) continue;
+            seen[cur] = moves;
+            for(auto child:e[cur]) {
+                int moveLeft = moves - child.second - 1;
+                if(moveLeft >= 0 && seen.find(child.first) == seen.end()) {
+                    pq.push({moveLeft, child.first});
                 }
             }
         }
