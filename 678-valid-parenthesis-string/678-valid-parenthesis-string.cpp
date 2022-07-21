@@ -1,20 +1,28 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        int cmax = 0, cmin = 0, ans = 0;
-        for(char c:s) {
-            if(c == '(') {
-                cmax++; cmin++;
+        vector<int>left, star;
+        for(int i=0; i<s.size(); i++) {
+            if(s[i] == '(') {
+                left.push_back(i);
             }
-            else if(c == ')') {
-                cmax--; cmin--;
+            else if(s[i] == '*') star.push_back(i);
+            else {
+                if(left.size() > 0) left.pop_back();
+                else if(star.size() > 0) star.pop_back();
+                else return false;
+            }
+        }
+        
+        while(left.size() && star.size()) {
+            if(left.back() < star.back()) {
+                left.pop_back();
+                star.pop_back();
             }
             else {
-                cmax++; cmin--;
+                return false;
             }
-            if(cmax < 0) return false;
-            cmin = max(0, cmin);
         }
-        return cmin == 0;
+        return left.empty();
     }
 };
