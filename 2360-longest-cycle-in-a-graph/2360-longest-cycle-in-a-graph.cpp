@@ -6,7 +6,7 @@ public:
         if(vis[cur] == 0) {
             vis[cur] = 1;
             dist[cur] = len;
-            if(edges[cur] != -1) dfs(edges, vis, edges[cur], dist, len + 1);
+            dfs(edges, vis, edges[cur], dist, len + 1);
             dist[cur] = -1;
         }
         else {
