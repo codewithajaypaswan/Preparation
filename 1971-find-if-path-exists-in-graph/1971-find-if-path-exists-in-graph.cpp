@@ -1,30 +1,22 @@
 class Solution {
 public:
-    void dfs(vector<int>adj[], vector<int>&vis, int &src, int &dest, int source, int destination, int cur) {
-        if(vis[cur]) return;
-        vis[cur] = 1;
-        if(cur == source) src = 1;
-        if(cur == destination) dest = 1;
-        for(int x:adj[cur]) {
-            dfs(adj, vis, src, dest, source, destination, x);
-        }
-    }
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+       vector<int>parent(n, -1);
         vector<int>adj[n];
         for(auto e:edges) {
             adj[e[0]].push_back(e[1]);
             adj[e[1]].push_back(e[0]);
         }
-        vector<int>vis(n, 0);
-        for(int i=0; i<n; i++) {
-            
-            if(vis[i] == 0) {
-                int src = 0, dest = 0;
-                dfs(adj, vis, src, dest, source, destination, i);
-                if(src == 1 && dest == 1) return true;
-                if(src == 1 || dest || 1) return false;
-            }
+        for(auto e:edges) {
+            int u = find(e[0], parent);
+            int v = find(e[1], parent);
+            if(u == v) continue;
+            parent[u] = v;
         }
-        return false;
+        return find(source, parent) == find(destination, parent);
+    }
+    int find(int u, vector<int>&parent) {
+        if(parent[u] == -1) return u;
+        return parent[u] = find(parent[u], parent);
     }
 };
