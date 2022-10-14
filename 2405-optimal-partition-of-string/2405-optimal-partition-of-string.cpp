@@ -1,16 +1,21 @@
 class Solution {
 public:
+    int checkBit(int flag, int n) {
+        return (flag&(1<<n));
+    }
+    void setBit(int &flag, int n) {
+        flag |= (1<<n);
+    }
     int partitionString(string s) {
-        int n = s.size(), ans = 0;
-        unordered_map<char,int>mp;
-        for(int high = 0, low = 0; high < n; high++) {
-            if(mp[s[high]] > 0) {
-                mp.clear();
+        int n = s.size(), ans = 1, flag = 0;
+        for(int i=0; i<n; i++) {
+            int ch = s[i] - 'a';
+            if(checkBit(flag, ch)) {
+                flag = 0;
                 ans++;
             }
-            mp[s[high]]++;
-           
+            setBit(flag, ch);
         }
-        return ans+1;
+        return ans;
     }
 };
