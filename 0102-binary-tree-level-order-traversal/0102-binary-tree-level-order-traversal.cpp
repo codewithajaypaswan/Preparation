@@ -11,22 +11,20 @@
  */
 class Solution {
 public:
+    int find(TreeNode* root) {
+        if(!root) return 0;
+        return 1 + max(find(root->left), find(root->right));
+    }
+    void dfs(TreeNode* root, int level, vector<vector<int>>&ans) {
+        if(!root) return;
+        ans[level].push_back(root->val);
+        dfs(root->left, level+1, ans);
+        dfs(root->right, level+1, ans);
+    }
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-        if(!root) return ans;
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()) {
-            int sz = q.size();
-            vector<int>temp;
-            while(sz--) {
-                TreeNode* cur = q.front(); q.pop();
-                temp.push_back(cur->val);
-                if(cur->left) q.push(cur->left);
-                if(cur->right) q.push(cur->right);
-            }
-            ans.push_back(temp);
-        }
+        int depth = find(root);
+        vector<vector<int>>ans(depth);
+        dfs(root, 0, ans);
         return ans;
     }
 };
