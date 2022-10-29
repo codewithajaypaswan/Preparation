@@ -11,33 +11,28 @@
  */
 class Solution {
 public:
+    void solve(TreeNode* root, int val, int depth, int curDepth) {
+        if(!root || curDepth > depth) return;
+        if(curDepth == depth) {
+            TreeNode* temp = root->left;
+            root->left = new TreeNode(val);
+            root->left->left = temp;
+            
+            temp = root->right;
+            root->right = new TreeNode(val);
+            root->right->right = temp;
+            return;
+        }
+        solve(root->left, val, depth, curDepth+1);
+        solve(root->right, val, depth, curDepth+1);
+    }
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
         if(depth == 1) {
-            TreeNode* node = new TreeNode(val);
-            node->left = root;
-            return node;
+            TreeNode* cur = new TreeNode(val);
+            cur->left = root;
+            return cur;
         }
-        queue<TreeNode*>q;
-        q.push(root);
-        for(int i=0; i<depth-2; i++) {
-            int sz = q.size();
-            while(sz--) {
-                TreeNode* cur = q.front(); q.pop();
-                if(cur->left) q.push(cur->left);
-                if(cur->right) q.push(cur->right);
-            }
-        }
-        while(!q.empty()) {
-            TreeNode* cur = q.front(); q.pop();
-            
-            TreeNode* temp = cur->left;
-            cur->left = new TreeNode(val);
-            cur->left->left = temp;
-
-            temp = cur->right;
-            cur->right = new TreeNode(val);
-            cur->right->right = temp;
-        }
+        solve(root, val, depth-2, 0);
         return root;
     }
 };
