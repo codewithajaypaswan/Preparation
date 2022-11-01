@@ -33,22 +33,19 @@ class Solution
     //Function to rotate a linked list.
     Node* rotate(Node* head, int k)
     {
-        if(!head) return head;
-        int len = 1;
-        Node* temp = head;
+        Node* cur = head;
+        while(k > 1 && cur) {
+            cur = cur->next;
+            k--;
+        }
+        if(!cur || !cur->next) return head;
+        Node* temp = cur;
         while(temp->next) {
             temp = temp->next;
-            len++;
         }
-        k = k%len;
-        if(k == 0) return head;
         temp->next = head;
-        temp = head;
-        for(int i=0; i<k-1; i++) {
-            temp = temp->next;
-        }
-        head = temp->next;
-        temp->next = NULL;
+        head = cur->next;
+        cur->next = NULL;
         return head;
     }
 };
