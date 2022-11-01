@@ -1,7 +1,6 @@
 # Rotate a Linked List
-## Medium 
-<div class="problem-statement">
-                <p></p><p><span style="font-size:18px">Given a singly linked list of size <strong>N</strong>. The task is to <strong>left-shift</strong> the linked list by <strong>k</strong> nodes, where <strong>k</strong> is a given positive integer smaller than or equal to length of the linked list. </span></p>
+## Medium
+<div class="problems_problem_content__Xm_eO"><p><span style="font-size:18px">Given a singly linked list of size <strong>N</strong>. The task is to <strong>left-shift</strong> the linked list by <strong>k</strong> nodes, where <strong>k</strong> is a given positive integer smaller than or equal to length of the linked list. </span></p>
 
 <p><span style="font-size:18px"><strong>Example 1:</strong></span></p>
 
@@ -35,5 +34,4 @@ You don't need to read input or print anything. Your task is to complete the fun
 <p><span style="font-size:18px"><strong>Constraints:</strong><br>
 1 &lt;= N &lt;= 10<sup>3</sup><br>
 1 &lt;= k &lt;= N</span></p>
- <p></p>
-            </div>
+</div>
